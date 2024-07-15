@@ -17,8 +17,6 @@ function App() {
                 </Route>
             </Routes>
         </BrowserRouter>
-
-            // <Quizzes />
     )
 }
 

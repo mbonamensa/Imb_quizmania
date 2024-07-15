@@ -107,12 +107,6 @@ a {
     }
 }
 
-
-// .app {
-//     @include flexed();
-//     min-height: 100vh;
-// }
-
 .home {
     @include flexed();
     flex-direction: column;

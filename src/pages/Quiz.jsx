@@ -3,7 +3,8 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { useEffect, useState } from "react"
 import Quiz from "../components/Quiz"
 import { useSearchParams } from "react-router-dom"
-import Skeleton from "react-loading-skeleton"
+import QuizSkeleton from "../components/QuizSkeleton"
+
 
 function Quizzes() {
 
@@ -17,12 +18,9 @@ function Quizzes() {
 
     const selectedCategoryId = searchParams.get("categoryId")
     const selectedDifficulty = searchParams.get("difficulty")
-
-    console.log("loading",loading)
     
     function fetchQuiz() {
         setLoading(true)
-        // fetch("https://opentdb.com/api.php?amount=10&type=multiple")
         fetch(`https://opentdb.com/api.php?amount=10&category=${selectedCategoryId ? selectedCategoryId : 9}&difficulty=${selectedDifficulty ? selectedDifficulty : "easy"}&type=multiple`)
         .then(response => response.json())
         .then(data => {
@@ -141,19 +139,22 @@ function Quizzes() {
         countScores()
 
     }
-    
-    const quizElements = quiz.map(quizElement => {
-        return <Quiz 
-        key={nanoid()}
-        question={quizElement.question}
-        correctAnswer={quizElement.correctAnswer}
-        allAnswers={quizElement.answers}
-        selectedAnswer={selectedAnswer}
-        quizId={quizElement.id}
-        loading={loading}
-        endQuiz={endQuiz}
+
+    const quizElements = loading
+    ? Array.from({ length: 10 }).map((_, i) => <QuizSkeleton key={i} />)
+    : quiz.map(quizElement => (
+        <Quiz
+            key={quizElement.id}
+            question={quizElement.question}
+            correctAnswer={quizElement.correctAnswer}
+            allAnswers={quizElement.answers}
+            selectedAnswer={selectedAnswer}
+            quizId={quizElement.id}
+            loading={loading}
+            endQuiz={endQuiz}
         />
-    })
+    ));
+    
     
     const buttonStyle = {
         cursor: allAnswersSelected ? "pointer" : "not-allowed",
@@ -165,7 +166,7 @@ function Quizzes() {
         <div className="quizzes-main-wrapper">
             <div className="quizzes">
                 <div className="quizzes--container">                
-                    {quizElements}
+                    { quizElements }
                 </div>
                 <div className="checks">
                     {endQuiz && <p>You scored {score}/10</p>}

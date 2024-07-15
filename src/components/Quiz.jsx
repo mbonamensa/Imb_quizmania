@@ -1,15 +1,14 @@
 import { decode } from "html-entities"
-import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import AnswerOption from "./AnswerOption"
 
 
 function Quiz({
     allAnswers, 
+    selectedAnswer,
     quizId,
     endQuiz,
     darkmode,
-    loading,
     question
 }) {
     
@@ -25,46 +24,17 @@ function Quiz({
         />
     })
 
-    console.log("loading?", loading)
-
     return (
         <>
         <div className="quiz">
             <h2>
-                {
-                loading ? 
-                <>
-                <div>Loading...</div>
-                <Skeleton 
-                baseColor={darkmode ? "#353536" : "#ebebeb"} 
-                highlightColor={darkmode ? "#403e3e" : "#f5f5f5"}
-                className="skeleton"
-                /> </>
-                : decode(question)
-                }
+                { decode(question)}
             </h2>
             <div className="answer-options">
-                {
-                loading ? 
-                <Skeleton 
-                width={150} 
-                height={30} 
-                count={4} 
-                borderRadius={10} 
-                baseColor={darkmode ? "#353536" : "#ebebeb"} 
-                highlightColor={darkmode ? "#403e3e" : "#f5f5f5"}
-                containerClassName="answers-skeleton" 
-                className="skeleton"
-                /> 
-                : answerElements
-                }
+                { answerElements }
             </div>
         </div>
-        {loading ? <Skeleton 
-        height={2}
-        baseColor={darkmode ? "#353536" : "#ebebeb"} 
-        highlightColor={darkmode ? "#403e3e" : "#f5f5f5"}
-        /> : <hr />}
+        <hr />
         </>
     )
 }

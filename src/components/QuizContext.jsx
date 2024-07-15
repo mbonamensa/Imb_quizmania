@@ -1,7 +1,6 @@
 import { useState, createContext } from "react"
 import { categoryData } from "../data"
 import { difficultyData } from "../data"
-import { useSearchParams } from "react-router-dom"
 
 const MainQuizContext = createContext()    
 
@@ -9,7 +8,6 @@ export default function QuizContext({children}) {
 
     const [category, setCategory] = useState(categoryData)
     const [difficulty, setDifficulty] = useState(difficultyData)
-    const [searchParams, setSearchParams] = useSearchParams()
     const [darkmode, setDarkmode] = useState(() => checkUserDarkTheme() ? true : false)
 
     function checkUserDarkTheme() {
@@ -29,9 +27,6 @@ export default function QuizContext({children}) {
          
         
     }
-
-    console.log("search", searchParams.get("type"))
-    // console.log(category)
 
     function selectCategory(id) {
         setCategory(prevCategory => {

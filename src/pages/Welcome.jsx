@@ -23,11 +23,6 @@ function Welcome() {
 
     const selectedCat = category.find(cat => cat.isSelected)
 
-    console.log("selected",selectedCat)
-
-    console.log(selectedCategory)
-    console.log(selectedDifficulty)
-
     useEffect(() => {
         const selectedCat = category.find(cat => cat.isSelected)
         const selectedDiff = difficulty.find(cat => cat.isSelected)
@@ -54,29 +49,6 @@ function Welcome() {
         }
     }
 
-    // function checkQuizSettings() {
-    //     if (!selectedCategory && !selectedDifficulty) {
-    //         alert("you haven't chosen any category and difficulty yet, proceed with category: general knowledge and difficulty: easy?")
-    //         setSelectedCategory("general-knowledge")
-    //         setSelectedCategoryId(9)
-    //         setSelectedDifficulty("easy")
-    //         navigate("/quiz?category=general-knowledge&categoryId=9&difficulty=easy")
-    //     } else if (!selectedCategory) {
-    //         alert("you haven't chosen any category yet, proceed with general knowledge?")
-    //         setSelectedCategory("general-knowledge")
-    //         setSelectedCategoryId(9)
-    //         navigate("/quiz?category=general-knowledge&categoryId=9&difficulty=easy")
-    //     } else if (!selectedDifficulty) {
-    //         alert("you haven't chosen any difficulty yet, proceed with easy?")
-    //         setSelectedDifficulty("easy")
-    //         navigate("/quiz?category=general-knowledge&categoryId=9&difficulty=easy")
-            
-    //     }else {
-    //         navigate("/quiz?category=general-knowledge&categoryId=9&difficulty=easy")
-
-    //     }
-    // }
-
     return (
             <div className="home">
                 <h1>Welcome to Quizmania!</h1>
@@ -94,8 +66,6 @@ function Welcome() {
                     </div>
                 </div>
                 <Link onClick={checkQuizSettings} className="btn" to={selectedCategory && selectDifficulty && `quiz?category=${selectedCategory}&categoryId=${selectedCategoryId}&difficulty=${selectedDifficulty}`}>Start quiz</Link>
-                {/* <Link onClick={checkQuizSettings} className="btn" to={category && difficulty && `quiz?category=${selectedCategory? selectCategory : "general-knowledge"}&categoryId=${selectedCategoryId ? selectedCategoryId : 9}&difficulty=${selectedDifficulty ? selectedDifficulty : "easy"}`}>Start quiz</Link> */}
-                {/* <button className="check-btn">Start Quiz</button> */}
             </div>
     )
 }
