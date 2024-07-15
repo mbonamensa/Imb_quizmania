@@ -4,47 +4,55 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import AnswerOption from "./AnswerOption"
 
 
-
-
-function Quiz(props) {
+function Quiz({
+    allAnswers, 
+    quizId,
+    endQuiz,
+    darkmode,
+    loading,
+    question
+}) {
     
-    const answerElements = props.allAnswers.map(answer => {
+    const answerElements = allAnswers.map(answer => {
         return <AnswerOption 
             key={answer.id}
             value={decode(answer.answerValue)}
-            selectedAnswer={() => props.selectedAnswer(answer.id, props.quizId)}
+            selectedAnswer={() => selectedAnswer(answer.id, quizId)}
             selected={answer.isSelected}
             isCorrect={answer.isCorrect}
-            endQuiz={props.endQuiz}
-            darkmode={props.darkmode}
+            endQuiz={endQuiz}
+            darkmode={darkmode}
         />
     })
 
+    console.log("loading?", loading)
 
     return (
         <>
         <div className="quiz">
             <h2>
                 {
-                props.loading ? 
+                loading ? 
+                <>
+                <div>Loading...</div>
                 <Skeleton 
-                baseColor={props.darkmode ? "#353536" : "#ebebeb"} 
-                highlightColor={props.darkmode ? "#403e3e" : "#f5f5f5"}
+                baseColor={darkmode ? "#353536" : "#ebebeb"} 
+                highlightColor={darkmode ? "#403e3e" : "#f5f5f5"}
                 className="skeleton"
-                /> 
-                : decode(props.question)
+                /> </>
+                : decode(question)
                 }
             </h2>
             <div className="answer-options">
                 {
-                props.loading ? 
+                loading ? 
                 <Skeleton 
                 width={150} 
                 height={30} 
                 count={4} 
                 borderRadius={10} 
-                baseColor={props.darkmode ? "#353536" : "#ebebeb"} 
-                highlightColor={props.darkmode ? "#403e3e" : "#f5f5f5"}
+                baseColor={darkmode ? "#353536" : "#ebebeb"} 
+                highlightColor={darkmode ? "#403e3e" : "#f5f5f5"}
                 containerClassName="answers-skeleton" 
                 className="skeleton"
                 /> 
@@ -52,10 +60,10 @@ function Quiz(props) {
                 }
             </div>
         </div>
-        {props.loading ? <Skeleton 
+        {loading ? <Skeleton 
         height={2}
-        baseColor={props.darkmode ? "#353536" : "#ebebeb"} 
-        highlightColor={props.darkmode ? "#403e3e" : "#f5f5f5"}
+        baseColor={darkmode ? "#353536" : "#ebebeb"} 
+        highlightColor={darkmode ? "#403e3e" : "#f5f5f5"}
         /> : <hr />}
         </>
     )

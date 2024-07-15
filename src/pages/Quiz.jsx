@@ -2,27 +2,28 @@ import { nanoid } from "nanoid"
 import 'react-loading-skeleton/dist/skeleton.css'
 import { useEffect, useState } from "react"
 import Quiz from "../components/Quiz"
-import Welcome from "./Welcome"
-import NavBar from "../components/NavBar"
-import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md"
-
-
-
+import { useSearchParams } from "react-router-dom"
+import Skeleton from "react-loading-skeleton"
 
 function Quizzes() {
 
     const [quiz, setQuiz] = useState([])
     const [quizStart, setQuizStart] = useState(false)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [allAnswersSelected, setAllAnswersSelected] = useState(false)
     const [score, setScore] = useState(0)
     const [endQuiz, setEndQuiz] = useState(false)
-    const [darkmode, setDarkmode] = useState(() => checkUserDarkTheme() ? true : false)
+    const [searchParams, setSearchParams] = useSearchParams()
 
+    const selectedCategoryId = searchParams.get("categoryId")
+    const selectedDifficulty = searchParams.get("difficulty")
+
+    console.log("loading",loading)
     
     function fetchQuiz() {
         setLoading(true)
-        fetch("https://opentdb.com/api.php?amount=5&type=multiple")
+        // fetch("https://opentdb.com/api.php?amount=10&type=multiple")
+        fetch(`https://opentdb.com/api.php?amount=10&category=${selectedCategoryId ? selectedCategoryId : 9}&difficulty=${selectedDifficulty ? selectedDifficulty : "easy"}&type=multiple`)
         .then(response => response.json())
         .then(data => {
             const unfilteredData = data.results
@@ -58,7 +59,7 @@ function Quizzes() {
 
     useEffect(() => {
         fetchQuiz()   
-    }, [])
+    }, [selectedCategoryId, selectedDifficulty])
 
     useEffect(() => {
 
@@ -73,27 +74,6 @@ function Quizzes() {
         }
 
     }, [quiz])
-
-
-    function checkUserDarkTheme() {
-       return (window.matchMedia("(prefers-color-scheme: dark)").matches)
-    }
-
-    function toggleTheme() {
-
-        setDarkmode(prevMode => !prevMode)
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-
-            document.body.classList.toggle("light")
-        }else {
-            document.body.classList.toggle("dark")
-
-        }
-        
-       
-    }
-
-    console.log(darkmode)
 
     function startQuiz() {
         setQuizStart(true)
@@ -162,8 +142,6 @@ function Quizzes() {
 
     }
     
-    // console.log(quiz)
-    
     const quizElements = quiz.map(quizElement => {
         return <Quiz 
         key={nanoid()}
@@ -174,7 +152,6 @@ function Quizzes() {
         quizId={quizElement.id}
         loading={loading}
         endQuiz={endQuiz}
-        darkmode={darkmode}
         />
     })
     
@@ -185,31 +162,20 @@ function Quizzes() {
 
     return (
         <>
-        <NavBar toggleTheme={toggleTheme} darkmode={darkmode}/>
         <div className="quizzes-main-wrapper">
             <div className="quizzes">
-
-                {quizStart ?
-                    
-                    (  <>
-                        <div className="quizzes--container">                
-                            {quizElements}
-                        </div>
-                        <div className="checks">
-                            {endQuiz && <p>You scored {score}/5</p>}
-                            <button
-                                className="check-btn" 
-                                disabled={allAnswersSelected ? false : true} 
-                                onClick={endQuiz ? startQuiz : checkAnswers}
-                                style={buttonStyle }
-                            >{endQuiz ? "Play again" : "Check answers"}</button>
-                        </div>
-                    
-                        </>
-                    )
-                    :
-                    <Welcome startQuiz={startQuiz}/>
-                }
+                <div className="quizzes--container">                
+                    {quizElements}
+                </div>
+                <div className="checks">
+                    {endQuiz && <p>You scored {score}/10</p>}
+                    <button
+                        className="check-btn btn" 
+                        disabled={allAnswersSelected ? false : true} 
+                        onClick={endQuiz ? startQuiz : checkAnswers}
+                        style={buttonStyle }
+                    >{endQuiz ? "Play again" : "Check answers"}</button>
+                </div>
             </div>
         </div>
         </>
