@@ -152,6 +152,12 @@ a {
   }
 }
 
+.main-content {
+  margin: 5rem auto;
+  width: 80%;
+  max-width: 1200px;
+}
+
 .answer-options {
   display: flex;
   flex-wrap: wrap;
@@ -160,7 +166,7 @@ a {
 
 .quizzes-main-wrapper {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
   min-height: 100vh;
 }
@@ -171,12 +177,21 @@ a {
   justify-content: center;
   flex-direction: column;
   gap: 4rem;
-  width: 85%;
-  margin: 5rem 0;
 }
 
 .quizzes--container {
   width: 100%;
+}
+
+.back-to-home {
+  color: #F5F7FB;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+.back-to-home:hover {
+  opacity: 0.8;
 }
 
 .answers-skeleton {

@@ -1,9 +1,10 @@
 import { nanoid } from "nanoid"
 import 'react-loading-skeleton/dist/skeleton.css'
 import { useEffect, useState } from "react"
-import Quiz from "../components/Quiz"
-import { useSearchParams } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
+import { IoIosArrowRoundBack } from "react-icons/io";
 import QuizSkeleton from "../components/QuizSkeleton"
+import Quiz from "../components/Quiz"
 
 
 function Quizzes() {
@@ -163,19 +164,22 @@ function Quizzes() {
 
     return (
         <>
-        <div className="quizzes-main-wrapper">
-            <div className="quizzes">
-                <div className="quizzes--container">                
-                    { quizElements }
-                </div>
-                <div className="checks">
-                    {endQuiz && <p>You scored {score}/10</p>}
-                    <button
-                        className="check-btn btn" 
-                        disabled={allAnswersSelected ? false : true} 
-                        onClick={endQuiz ? startQuiz : checkAnswers}
-                        style={buttonStyle }
-                    >{endQuiz ? "Play again" : "Check answers"}</button>
+        <div className="main-content">
+            <Link to=".." className="back-to-home"><IoIosArrowRoundBack /> Back to home</Link>
+            <div className="quizzes-main-wrapper">
+                <div className="quizzes">
+                    <div className="quizzes--container">                
+                        { quizElements }
+                    </div>
+                    <div className="checks">
+                        {endQuiz && <p>You scored {score}/10</p>}
+                        <button
+                            className="check-btn btn" 
+                            disabled={allAnswersSelected ? false : true} 
+                            onClick={endQuiz ? startQuiz : checkAnswers}
+                            style={buttonStyle }
+                        >{endQuiz ? "Play again" : "Check answers"}</button>
+                    </div>
                 </div>
             </div>
         </div>
