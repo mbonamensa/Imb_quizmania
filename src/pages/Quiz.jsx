@@ -5,6 +5,7 @@ import { Link, useSearchParams } from "react-router-dom"
 import { IoIosArrowRoundBack } from "react-icons/io";
 import QuizSkeleton from "../components/QuizSkeleton"
 import Quiz from "../components/Quiz"
+import { getQuiz } from "../api";
 
 
 function Quizzes() {
@@ -16,52 +17,62 @@ function Quizzes() {
     const [score, setScore] = useState(0)
     const [endQuiz, setEndQuiz] = useState(false)
     const [searchParams, setSearchParams] = useSearchParams()
+    const [error, setError] = useState(null)
 
     const selectedCategoryId = searchParams.get("categoryId")
     const selectedDifficulty = searchParams.get("difficulty")
-    
-    function fetchQuiz() {
-        setLoading(true)
-        fetch(`https://opentdb.com/api.php?amount=10&category=${selectedCategoryId ? selectedCategoryId : 9}&difficulty=${selectedDifficulty ? selectedDifficulty : "easy"}&type=multiple`)
-        .then(response => response.json())
-        .then(data => {
-            const unfilteredData = data.results
-    
-            const newQuizData = []
-    
-            for(let i = 0; i < unfilteredData.length; i++) {
-                const unfiltered = unfilteredData[i]
-                const allAnswers = [...unfiltered.incorrect_answers, unfiltered.correct_answer]
-                const shuffleAllAnswers = allAnswers.sort(() => {return (0.5 - Math.random())})
-    
-                const answerObjects = shuffleAllAnswers.map(answer => {
-                    return {
-                        id: nanoid(),
-                        answerValue: answer,
-                        isSelected: false,
-                        isCorrect: answer === unfiltered.correct_answer ? true : false
-                    }
-                })
-    
-                newQuizData.push({
-                    question: (unfiltered.question),
-                    correctAnswer: (unfiltered.correct_answer),
-                    answers: answerObjects,
-                    id: nanoid()
-                })
-            }
-            setQuiz(newQuizData)
-            setLoading(false)
-            
-        })
-    }
 
     useEffect(() => {
-        fetchQuiz()   
+        async function loadQuiz() {
+            setLoading(true)
+
+            try {
+
+                const rawData = await getQuiz(selectedCategoryId, selectedDifficulty)
+                    
+                    const unfilteredData = rawData.results
+                    
+                    const newQuizData = []
+                    
+                    for(let i = 0; i < unfilteredData.length; i++) {
+                        const unfiltered = unfilteredData[i]
+                        const allAnswers = [...unfiltered.incorrect_answers, unfiltered.correct_answer]
+                        const shuffleAllAnswers = allAnswers.sort(() => {return (0.5 - Math.random())})
+                        
+                        const answerObjects = shuffleAllAnswers.map(answer => {
+                            return {
+                                id: nanoid(),
+                                answerValue: answer,
+                                isSelected: false,
+                                isCorrect: answer === unfiltered.correct_answer ? true : false
+                            }
+                        })
+                        
+                        newQuizData.push({
+                            question: (unfiltered.question),
+                            correctAnswer: (unfiltered.correct_answer),
+                            answers: answerObjects,
+                            id: nanoid()
+                        })
+                    }
+                    setQuiz(newQuizData)
+            } catch(error) {
+
+                console.log(error)
+                setError(error)
+
+            } finally {
+                
+                setLoading(false)
+            }
+        }
+            
+        loadQuiz()
+
     }, [selectedCategoryId, selectedDifficulty])
 
     useEffect(() => {
-
+        
         const allAnswerschecked = quiz.every(quizElement => {
            return quizElement.answers.some(answer => answer.isSelected)
         })
@@ -160,6 +171,15 @@ function Quizzes() {
     const buttonStyle = {
         cursor: allAnswersSelected ? "pointer" : "not-allowed",
         opacity: allAnswersSelected ? "1" : "0.8"
+    }
+
+    if (error) {
+        return (
+            <div className="not-found">
+                <h1>An unexpected error occured: {error.message}</h1>
+            </div>
+        ) 
+            
     }
 
     return (

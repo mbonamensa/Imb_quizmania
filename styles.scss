@@ -204,7 +204,6 @@ a {
 .quizzes-main-wrapper {
     display: flex;
     flex-direction: column;
-    // align-items: center;
     justify-content: center;
     min-height: 100vh;
 }
@@ -213,8 +212,6 @@ a {
     @include flexed();
     flex-direction: column;
     gap: 4rem;
-    // width: 85%;
-    // margin: 5rem 0;
 }
 
 .quizzes--container {
@@ -236,6 +233,15 @@ a {
         color: $light-white;
     }
     
+}
+
+.not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    min-height: 90vh;
 }
 
 .answers-skeleton {

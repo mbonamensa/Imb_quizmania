@@ -199,6 +199,15 @@ a {
   }
 }
 
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  min-height: 90vh;
+}
+
 .answers-skeleton {
   display: flex;
   justify-content: space-between;
