@@ -222,7 +222,7 @@ a {
 }
 
 .back-to-home {
-    color: $light-white;
+    color: $light-oxford-blue;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -231,6 +231,11 @@ a {
     &:hover {
         opacity: 0.8;
     }
+
+    @include darkmode() {
+        color: $light-white;
+    }
+    
 }
 
 .answers-skeleton {
@@ -317,6 +322,10 @@ a {
             fill: $light-white;
         }
     }
+
+    .back-to-home {
+        color: $light-white;
+    }
 }
 
 .light {
@@ -350,6 +359,10 @@ a {
         svg {
             fill: $oxford-blue;
         }
+    }
+
+    .back-to-home {
+        color: $oxford-blue;
     }
 }
 
