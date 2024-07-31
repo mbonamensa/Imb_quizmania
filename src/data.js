@@ -13,7 +13,7 @@ export const categoryData = [
     },
     {
         name: "Geography",
-        name: "geography",
+        slug: "geography",
         id: 22,
         isSelected: false
     },

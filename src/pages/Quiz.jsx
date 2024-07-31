@@ -22,54 +22,55 @@ function Quizzes() {
     const selectedCategoryId = searchParams.get("categoryId")
     const selectedDifficulty = searchParams.get("difficulty")
 
-    useEffect(() => {
-        async function loadQuiz() {
-            setLoading(true)
+    async function loadQuiz() {
+        setLoading(true)
+        try {
 
-            try {
-
-                const rawData = await getQuiz(selectedCategoryId, selectedDifficulty)
-                    
-                    const unfilteredData = rawData.results
-                    
-                    const newQuizData = []
-                    
-                    for(let i = 0; i < unfilteredData.length; i++) {
-                        const unfiltered = unfilteredData[i]
-                        const allAnswers = [...unfiltered.incorrect_answers, unfiltered.correct_answer]
-                        const shuffleAllAnswers = allAnswers.sort(() => {return (0.5 - Math.random())})
-                        
-                        const answerObjects = shuffleAllAnswers.map(answer => {
-                            return {
-                                id: nanoid(),
-                                answerValue: answer,
-                                isSelected: false,
-                                isCorrect: answer === unfiltered.correct_answer ? true : false
-                            }
-                        })
-                        
-                        newQuizData.push({
-                            question: (unfiltered.question),
-                            correctAnswer: (unfiltered.correct_answer),
-                            answers: answerObjects,
-                            id: nanoid()
-                        })
-                    }
-                    setQuiz(newQuizData)
-            } catch(error) {
-
-                console.log(error)
-                setError(error)
-
-            } finally {
+            const rawData = await getQuiz(selectedCategoryId, selectedDifficulty)
                 
-                setLoading(false)
-            }
-        }
+            const unfilteredData = rawData.results
             
-        loadQuiz()
+            const newQuizData = []
+            
+            for(let i = 0; i < unfilteredData.length; i++) {
+                const unfiltered = unfilteredData[i]
+                const allAnswers = [...unfiltered.incorrect_answers, unfiltered.correct_answer]
+                const shuffleAllAnswers = allAnswers.sort(() => {return (0.5 - Math.random())})
+                
+                const answerObjects = shuffleAllAnswers.map(answer => {
+                    return {
+                        id: nanoid(),
+                        answerValue: answer,
+                        isSelected: false,
+                        isCorrect: answer === unfiltered.correct_answer ? true : false
+                    }
+                })
+                
+                newQuizData.push({
+                    question: (unfiltered.question),
+                    correctAnswer: (unfiltered.correct_answer),
+                    answers: answerObjects,
+                    id: nanoid()
+                })
+            }
+            setQuiz(newQuizData)
+        } catch(error) {
 
-    }, [selectedCategoryId, selectedDifficulty])
+            console.log(error)
+            setError(error)
+
+        } finally {
+            
+            setLoading(false)
+        }
+    }
+        
+    
+    useEffect(() => {
+
+        loadQuiz()
+    }, [])
+
 
     useEffect(() => {
         
@@ -86,8 +87,8 @@ function Quizzes() {
     }, [quiz])
 
     function startQuiz() {
+        loadQuiz()
         setQuizStart(true)
-        fetchQuiz()
         setAllAnswersSelected(false)
         setEndQuiz(false)
     }
@@ -98,21 +99,13 @@ function Quizzes() {
             
             return prevQuiz.map(quizElement => {
                 if (quizId === quizElement.id) {
+
                     return {
                         ...quizElement, 
                         answers: quizElement.answers.map(answer => {
-                            if(answer.id === answerId) {
-                                
-                                return {
-                                    ...answer,
-                                    isSelected: !answer.isSelected
-        
-                                }
-                            } else {
-                                return {
-                                    ...answer,
-                                    isSelected: false
-                                }
+                            return {
+                                ...answer,
+                                isSelected: answer.id === answerId ? !answer.isSelected : false
                             }
                         }) 
                     }
@@ -123,7 +116,6 @@ function Quizzes() {
             })
         })
     }
-
 
     function countScores() {
         const QuizArrayWithSelectedAnswers = [...quiz]

@@ -5,7 +5,8 @@ import { MainQuizContext } from "./QuizContext"
 
 export default function QuizSkeleton() {
 
-    const {darkmode} = useContext(MainQuizContext)
+    const {theme} = useContext(MainQuizContext)
+    const darkmode = theme === "dark"
 
     return ( 
         <div className="quiz">

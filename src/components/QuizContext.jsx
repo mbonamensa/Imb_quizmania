@@ -1,31 +1,39 @@
-import { useState, createContext } from "react"
+import { useState, createContext, useEffect } from "react"
 import { categoryData } from "../data"
 import { difficultyData } from "../data"
 
-const MainQuizContext = createContext()    
+const MainQuizContext = createContext()  
+
+function getInitialTheme() {
+    const savedTheme = localStorage.getItem("theme")
+
+    if (savedTheme) {
+        return savedTheme
+    } else {
+
+        const preferredTheme = (window.matchMedia("(prefers-color-scheme: dark)").matches)  ? "dark" : "light"
+        return preferredTheme
+    }
+
+}
 
 export default function QuizContext({children}) {
 
     const [category, setCategory] = useState(categoryData)
     const [difficulty, setDifficulty] = useState(difficultyData)
-    const [darkmode, setDarkmode] = useState(() => checkUserDarkTheme() ? true : false)
-
-    function checkUserDarkTheme() {
-        return (window.matchMedia("(prefers-color-scheme: dark)").matches)
-    }
+    const [theme, setTheme] = useState(getInitialTheme())
  
-    function toggleTheme() {
- 
-        setDarkmode(prevMode => !prevMode)
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
- 
-            document.body.classList.toggle("light")
-        }else {
-            document.body.classList.toggle("dark")
- 
-        }
-         
+    useEffect(() => {
         
+        document.body.classList.remove('light', 'dark');
+        document.body.classList.add(theme);
+        localStorage.setItem("theme", theme)
+
+    }, [theme])
+
+    function toggleTheme() {
+
+        setTheme(prevTheme => prevTheme === "light" ? "dark" : "light")
     }
 
     function selectCategory(id) {
@@ -41,7 +49,7 @@ export default function QuizContext({children}) {
     }
 
     function selectDifficulty(id) {
-        console.log("clicked")
+
         setDifficulty(prevDifficulty => {
             return prevDifficulty.map(difficulty => {
                 return {
@@ -53,11 +61,13 @@ export default function QuizContext({children}) {
 
     }
 
+    
+
     return (
         <MainQuizContext.Provider value={{
             category,
             difficulty,
-            darkmode,
+            theme,
             selectCategory,
             selectDifficulty,
             toggleTheme

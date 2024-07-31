@@ -5,7 +5,7 @@ import { MainQuizContext } from "./QuizContext"
 
 function NavBar() {
 
-    const {darkmode, toggleTheme} = useContext(MainQuizContext)
+    const {theme, toggleTheme} = useContext(MainQuizContext)
 
     return (
         <div className="navbar">
@@ -13,7 +13,7 @@ function NavBar() {
                 <img src="../logo-img.png" alt="light bulb"/>
                 <p>Quizmania</p>
             </div>
-            <button className="theme-icon-container" onClick={toggleTheme}><p>Toggle theme</p>{darkmode ? <MdOutlineLightMode /> : <MdOutlineDarkMode />}</button>
+            <button className="theme-icon-container" onClick={toggleTheme}><p>Toggle theme</p>{theme === "dark" ? <MdOutlineLightMode /> : <MdOutlineDarkMode />}</button>
         </div>
     )
 }

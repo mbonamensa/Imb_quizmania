@@ -21,8 +21,6 @@ function Welcome() {
     const navigate = useNavigate()
 
 
-    const selectedCat = category.find(cat => cat.isSelected)
-
     useEffect(() => {
         const selectedCat = category.find(cat => cat.isSelected)
         const selectedDiff = difficulty.find(cat => cat.isSelected)

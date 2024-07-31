@@ -19,11 +19,17 @@ $light-dark-blue: #4D5B9E;
     justify-content: center;
 }
 
+// @mixin darkmode() {
+//     @if (darkmode) {
+//         @media (prefers-color-scheme: dark) {
+//             @content
+//         }
+//     }
+// }
+
 @mixin darkmode() {
-    @if (darkmode) {
-        @media (prefers-color-scheme: dark) {
-            @content
-        }
+    body.dark & {
+        @content;
     }
 }
 

@@ -8,7 +8,7 @@ function Quiz({
     selectedAnswer,
     quizId,
     endQuiz,
-    darkmode,
+    theme,
     question
 }) {
     
@@ -20,7 +20,7 @@ function Quiz({
             selected={answer.isSelected}
             isCorrect={answer.isCorrect}
             endQuiz={endQuiz}
-            darkmode={darkmode}
+            theme={theme}
         />
     })
 
