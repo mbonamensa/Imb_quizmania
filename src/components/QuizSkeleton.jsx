@@ -2,7 +2,6 @@ import { useContext } from "react"
 import Skeleton from "react-loading-skeleton"
 import { MainQuizContext } from "./QuizContext"
 
-
 export default function QuizSkeleton() {
 
     const {theme} = useContext(MainQuizContext)

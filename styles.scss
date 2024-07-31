@@ -19,14 +19,6 @@ $light-dark-blue: #4D5B9E;
     justify-content: center;
 }
 
-// @mixin darkmode() {
-//     @if (darkmode) {
-//         @media (prefers-color-scheme: dark) {
-//             @content
-//         }
-//     }
-// }
-
 @mixin darkmode() {
     body.dark & {
         @content;
@@ -248,6 +240,10 @@ a {
     justify-content: center;
     gap: 2rem;
     min-height: 90vh;
+    max-width: 750px;
+    margin: 0 auto;
+    width: 90%;
+    text-align: center;
 }
 
 .answers-skeleton {
@@ -377,8 +373,3 @@ a {
         color: $oxford-blue;
     }
 }
-
-
-
-
-

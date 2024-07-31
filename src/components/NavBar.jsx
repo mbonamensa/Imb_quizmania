@@ -1,7 +1,6 @@
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md"
-import { useContext, useState, } from "react"
+import { useContext } from "react"
 import { MainQuizContext } from "./QuizContext"
-
 
 function NavBar() {
 

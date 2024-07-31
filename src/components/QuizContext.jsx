@@ -61,8 +61,6 @@ export default function QuizContext({children}) {
 
     }
 
-    
-
     return (
         <MainQuizContext.Provider value={{
             category,

@@ -7,7 +7,6 @@ import QuizSkeleton from "../components/QuizSkeleton"
 import Quiz from "../components/Quiz"
 import { getQuiz } from "../api";
 
-
 function Quizzes() {
 
     const [quiz, setQuiz] = useState([])
@@ -64,13 +63,11 @@ function Quizzes() {
             setLoading(false)
         }
     }
-        
-    
+
     useEffect(() => {
 
         loadQuiz()
     }, [])
-
 
     useEffect(() => {
         

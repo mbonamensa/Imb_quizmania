@@ -5,8 +5,7 @@ import { MainQuizContext } from "../components/QuizContext"
 function Welcome() {
     
     const {category, difficulty, selectCategory, selectDifficulty} = useContext(MainQuizContext)
-
-
+    
     const categories = category.map(category => {
         return <button className={category.isSelected ? "selected" : ""} onClick={() => selectCategory(category.id)} key={category.id}>{category.name}</button>
     })
@@ -19,7 +18,6 @@ function Welcome() {
     const [selectedCategoryId, setSelectedCategoryId] = useState()
     const [selectedDifficulty, setSelectedDifficulty] = useState()
     const navigate = useNavigate()
-
 
     useEffect(() => {
         const selectedCat = category.find(cat => cat.isSelected)

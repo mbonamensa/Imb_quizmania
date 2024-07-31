@@ -194,6 +194,10 @@ body.dark .back-to-home {
   justify-content: center;
   gap: 2rem;
   min-height: 90vh;
+  max-width: 750px;
+  margin: 0 auto;
+  width: 90%;
+  text-align: center;
 }
 
 .answers-skeleton {

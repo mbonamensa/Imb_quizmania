@@ -2,7 +2,6 @@ import { decode } from "html-entities"
 import 'react-loading-skeleton/dist/skeleton.css'
 import AnswerOption from "./AnswerOption"
 
-
 function Quiz({
     allAnswers, 
     selectedAnswer,
